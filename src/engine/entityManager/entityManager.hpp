@@ -3,6 +3,7 @@
 #include <string>
 #include "engine/input/input.hpp"
 #include "engine/entity/entity.hpp"
+#include "engine/entity/input_mixin.hpp"
 
 namespace engine
 {

@@ -37,4 +37,9 @@ namespace engine
     {
         return entities;
     }
+
+    void EntityManager::SetUpInputHandler(engine::Input<std::string> *input)
+    {
+        inputHandler = input;
+    }
 }
