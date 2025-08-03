@@ -2,10 +2,10 @@
 
 namespace gameObjects
 {
+
     Player::Player(std::string name, glm::vec3 pos, glm::vec3 rotation, glm::vec3 scale)
-        : Entity(name, pos, rotation, scale, playerModelPath)
+        : Entity(name, pos, rotation, scale, this->playerModelPath)
     {
-        // Constructor initializes the player entity with a model
     }
 
     Player::~Player()
@@ -15,14 +15,32 @@ namespace gameObjects
 
     void Player::Update(float deltaTime)
     {
-        // Update player state based on input and delta time
+        // Update Player state based on input and delta time
+        Movement(deltaTime);       // Handle movement based on input
         Entity::Update(deltaTime); // Call base class update
-        // Additional player-specific update logic can go here
+        // Additional Player-specific update logic can go here
     }
 
     void Player::Start()
     {
-        // Initialize player-specific properties or state
+        // Initialize Player-specific properties or state
         Entity::Start(); // Call base class start method
+    }
+
+    void Player::Movement(float deltaTime)
+    {
+        // Example movement logic
+        if (isActionActive("move_forward"))
+        {
+            glm::vec3 newPos = GetPosition();
+            newPos.z += deltaTime; // Move forward in the z direction
+            SetPosition(newPos);
+        }
+        if (isActionActive("move_backward"))
+        {
+            glm::vec3 newPos = GetPosition();
+            newPos.z -= deltaTime; // Move backward in the z direction
+            SetPosition(newPos);
+        }
     }
 } // namespace gameObjects

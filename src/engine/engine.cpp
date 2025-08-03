@@ -99,7 +99,7 @@ namespace engine
 
     void Engine::Run()
     {
-        auto car = new engine::Entity("Car", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f), "./assets/models/vehicle-speedster.obj");
+        auto car = new gameObjects::Player("Car", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
         auto entityManager = &engine::EntityManager::Instance();
         while (!glfwWindowShouldClose(window))
         {

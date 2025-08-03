@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "engine/input/input.hpp"
+#include "engine/entity/entity.hpp"
 
 namespace engine
 {
@@ -12,6 +14,7 @@ namespace engine
     private:
         std::vector<Entity *> entities; // List of all entities managed by this manager
         engine::Input<std::string> *inputHandler;
+
     public:
         static EntityManager &Instance()
         {

@@ -9,11 +9,9 @@ namespace gameObjects
     {
     private:
         const std::string playerModelPath = "./assets/models/vehicle-speedster.obj";
-        engine::Input<std::string> *input; // Input handler for player actions
-
+        void Movement(float deltaTime); // Function to handle player movement
     public:
         ~Player();
-
         Player(std::string name, glm::vec3 pos = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
         void Update(float deltaTime) override; // override base Update
         void Start() override;                 // override base start

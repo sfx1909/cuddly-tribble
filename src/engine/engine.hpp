@@ -7,6 +7,7 @@
 #include "engine/renderer/renderer.hpp"
 #include <chrono>
 #include "engine/entity/entity.hpp"
+#include "gameObjects/player.hpp"
 
 namespace engine
 {
