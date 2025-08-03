@@ -59,6 +59,7 @@
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        "*.cpp": "${capture}.h",
+        "*.cpp": "${capture}.h,${capture}.hpp",
+        
     },
 }
