@@ -101,8 +101,11 @@ namespace engine
     {
         auto car = new gameObjects::Player("Car", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
         auto entityManager = &engine::EntityManager::Instance();
+        entityManager->AddEntity(car); // Add the player entity to the entity manager
+
         while (!glfwWindowShouldClose(window))
         {
+            // input->Update(); //Needed for input.OnHoldAction to work
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             auto deltaTime = UpdateDeltaTime(); // Get delta time for frame rate independent updates
             for (auto &entity : entityManager->GetEntities())

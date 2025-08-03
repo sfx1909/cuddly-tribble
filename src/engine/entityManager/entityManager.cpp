@@ -8,11 +8,12 @@ namespace engine
     {
         if (entity) // Check if the entity pointer is valid
         {
-            if (auto inputEntity = dynamic_cast<engine::WithInputMixin *>(entity))
+            if (auto inputEntity = dynamic_cast<engine::WithInputMixin*>(entity))
             {
                 inputEntity->setInputHandler(inputHandler);
             }
             entities.push_back(entity);
+            entity->Start();
         }
     }
 
