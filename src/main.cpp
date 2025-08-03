@@ -1,4 +1,5 @@
 #include <iostream>
+#include <GL/glew.h>
 #include "engine/engine.hpp"
 
 int main()

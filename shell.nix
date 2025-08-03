@@ -49,5 +49,7 @@ pkgs.mkShell {
     pkgs.SDL2_sound
     pkgs.SDL2_mixer
     pkgs.SDL2_image
+    pkgs.assimp
+    pkgs.assimp.dev
   ];
 }

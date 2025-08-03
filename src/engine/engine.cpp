@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include "engine.hpp"
 #include <cmath>
 #include <iostream>

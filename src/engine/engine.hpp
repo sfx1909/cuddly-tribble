@@ -1,8 +1,10 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <utils/config/config.hpp>
 #include <string>
 #include <functional>
 #include "engine/input/input.hpp"
-#include <engine/renderer/renderer.hpp>
+#include "engine/renderer/renderer.hpp"
 
 namespace engine{
 class Engine {

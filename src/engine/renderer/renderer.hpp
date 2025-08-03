@@ -1,11 +1,10 @@
 // Standard C++ Libraries
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
-// GLEW must come before any OpenGL header
+// GLEW must be included before any OpenGL or GLFW headers
 #include <GL/glew.h>
-
-// GLFW (Window and OpenGL context management)
 #include <GLFW/glfw3.h>
 
 // GLM (Mathematical types for OpenGL)
