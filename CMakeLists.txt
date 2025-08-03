@@ -15,13 +15,17 @@ add_executable(cuddly_tribble ${SOURCE_FILES})
 
 # Use CMake's OpenGL module
 find_package(OpenGL REQUIRED)
+#find_package(GLFW3 REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(assimp REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/assets)
 
 # Link to libraries by name only
 # Nix will provide the correct environment
 
-target_link_libraries(cuddly_tribble PRIVATE glfw GL)
+target_link_libraries(cuddly_tribble PRIVATE glfw GLEW GL assimp)
 
 add_custom_command(
     TARGET cuddly_tribble POST_BUILD

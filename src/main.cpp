@@ -1,8 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <GLFW/glfw3.h>
-#include <cmath>
 #include "engine/engine.hpp"
 
 int main()

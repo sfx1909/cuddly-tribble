@@ -1,8 +1,8 @@
-#include <GLFW/glfw3.h>
 #include <utils/config/config.hpp>
 #include <string>
 #include <functional>
 #include "engine/input/input.hpp"
+#include <engine/renderer/renderer.hpp>
 
 namespace engine{
 class Engine {
@@ -10,6 +10,7 @@ class Engine {
         GLFWwindow* window;
         Config* config;
         Input<std::string>* input;
+        Renderer* renderer;
     public:
         Engine();
         ~Engine();
