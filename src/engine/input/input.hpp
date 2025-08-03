@@ -64,6 +64,11 @@ namespace engine
 
             return true;
         }
+        
+        bool IsActionActive(const ActionType &action) const
+        {
+            return keyboard->isActionActive(action);
+        }
 
         bool IsActionActive(const ActionType &action) const
         {
