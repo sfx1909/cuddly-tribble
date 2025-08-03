@@ -2,18 +2,17 @@
 #include "engine/input/input.hpp"
 
 namespace engine {
-    template <typename Derived, typename ActionType>
     class WithInputMixin {
     protected:
-        engine::Input<ActionType>* inputHandler = nullptr;
+        engine::Input<std::string>* inputHandler = nullptr;
     public:
-        void setInputHandler(engine::Input<ActionType>* handler) {
+        void setInputHandler(engine::Input<std::string>* handler) {
             inputHandler = handler;
         }
-        engine::Input<ActionType>* input() const {
+        engine::Input<std::string>* input() const {
             return inputHandler;
         }
-        bool isActionActive(const ActionType& action) const {
+        bool isActionActive(const std::string& action) const {
             return inputHandler ? inputHandler->IsActionActive(action) : false;
         }
     };

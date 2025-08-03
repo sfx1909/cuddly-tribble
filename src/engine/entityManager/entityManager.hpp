@@ -11,6 +11,7 @@ namespace engine
     {
     private:
         std::vector<Entity *> entities; // List of all entities managed by this manager
+        engine::Input<std::string> *inputHandler;
     public:
         static EntityManager &Instance()
         {
@@ -20,5 +21,6 @@ namespace engine
         void AddEntity(Entity *entity);
         bool DeleteEntity(Entity *entity);
         std::vector<Entity *> GetEntities();
+        void SetUpInputHandler(engine::Input<std::string> *input);
     };
 };

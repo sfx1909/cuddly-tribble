@@ -50,6 +50,7 @@ namespace engine
         }
 
         input = new Input<std::string>(window);
+        EntityManager::Instance().SetUpInputHandler(input);
 
         // This can be called again to reload keybinds if needed
         std::string keybindsFile = "./preferences/keybinds.ini";

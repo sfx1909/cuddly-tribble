@@ -5,7 +5,7 @@
 
 namespace gameObjects
 {
-    class Player : public engine::Entity, public engine::WithInputMixin<Player, std::string>
+    class Player : public engine::Entity, public engine::WithInputMixin
     {
     private:
         const std::string playerModelPath = "./assets/models/vehicle-speedster.obj";

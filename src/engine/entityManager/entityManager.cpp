@@ -1,14 +1,21 @@
 #include "entityManager.hpp"
+#include "entity.hpp" // Add this include to ensure Entity is fully defined
+#include <input.hpp>
+#include <type_traits>
+#include <input_mixin.hpp>
 
 namespace engine
 {
-
     // AddEntity: adds a new entity to the manager's list
     void EntityManager::AddEntity(Entity *entity)
     {
         if (entity) // Check if the entity pointer is valid
         {
-            entities.push_back(entity); // Add the entity to the list
+            if (auto inputEntity = dynamic_cast<engine::WithInputMixin *>(entity))
+            {
+                inputEntity->setInputHandler(inputHandler);
+            }
+            entities.push_back(entity);
         }
     }
 
@@ -33,5 +40,4 @@ namespace engine
     {
         return entities;
     }
-
 }
