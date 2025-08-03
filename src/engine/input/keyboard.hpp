@@ -19,6 +19,7 @@ namespace input
         void onKeybindRelease(KeybindCallback cb);
         void onKeybindHold(KeybindCallback cb);
         void checkHeldKeys();
+        bool isActionActive(const ActionType &action);
         static void keyCallbackDispatch(GLFWwindow *window, int key, int scancode, int action, int mods);
 
     private:
@@ -105,5 +106,22 @@ namespace input
                 instance->onHoldCallback(act);
             }
         }
+    }
+
+    template <typename ActionType>
+    bool Keyboard<ActionType>::isActionActive(const ActionType &action)
+    {
+        if (!instance)
+            return false;
+
+        if (instance->heldKeys.empty())
+            return false;
+
+        for (const auto &keyInfo : instance->heldKeys)
+        {
+            if (instance->keybinds.GetAction(keyInfo) == action)
+                return true;
+        }
+        return false;
     }
 }
