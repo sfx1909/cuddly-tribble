@@ -51,7 +51,7 @@ namespace engine
         }
 
         virtual void Update(float deltaTime);
-        virtual void start();
+        virtual void Start();
 
         void setMeshData(const engine::MeshData &data);
         const engine::MeshData *GetMeshData() const;

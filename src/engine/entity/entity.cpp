@@ -13,7 +13,7 @@ namespace engine
         std::vector<Vertex> vertices = renderer.LoadModel(modelPath);
         this->setMeshData(renderer.setupBuffers(vertices)); // Set mesh data using renderer
         engine::EntityManager::Instance().AddEntity(this);  // Add this entity to the manager
-        this->start();                                      // Call start method to initialize any additional properties
+        this->Start();                                      // Call start method to initialize any additional properties
     }
 
     Entity::~Entity()
@@ -22,7 +22,7 @@ namespace engine
         engine::EntityManager::Instance().DeleteEntity(this); // Remove this entity from the manager
     }
 
-    void Entity::start()
+    void Entity::Start()
     {
     }
 

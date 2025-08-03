@@ -1,21 +1,21 @@
 #pragma once
 #include "engine/input/input.hpp"
 #include "engine/entity/entity.hpp"
+#include "engine/entity/input_mixin.hpp"
 
 namespace gameObjects
 {
-    class player : public engine::Entity
+    class Player : public engine::Entity, public engine::WithInputMixin<Player, std::string>
     {
     private:
         const std::string playerModelPath = "./assets/models/vehicle-speedster.obj";
         engine::Input<std::string> *input; // Input handler for player actions
 
     public:
-        ~player();
+        ~Player();
 
-        player(std::string name, glm::vec3 pos = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
-        ~player();
+        Player(std::string name, glm::vec3 pos = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
         void Update(float deltaTime) override; // override base Update
-        void start() override;                 // override base start
+        void Start() override;                 // override base start
     };
 }
