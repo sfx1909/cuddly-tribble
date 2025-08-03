@@ -33,10 +33,15 @@ namespace engine
         // Retrieve window width, height, and title from the config file
         int width = std::stoi(this->config->get()["window"]["width"]);
         int height = std::stoi(this->config->get()["window"]["height"]);
-        const char *title = this->config->get()["window"]["title"].c_str();
+
+        auto title = GetConfigValue("window", "title");
+        if (!title.empty() && title.front() == '"' && title.back() == '"')
+        {
+            title = title.substr(1, title.size() - 2);
+        }
 
         // Create the GLFW window with specified dimensions and title
-        window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+        window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
         if (!window)
         {
             // If window creation fails, clean up GLFW and throw an error
@@ -91,43 +96,12 @@ namespace engine
         this->renderer = new Renderer();
     }
 
-    void Engine::OnKeybindPress(std::function<void(const std::string &)> callback)
-    {
-        input->OnPressAction([callback](const std::string &action)
-                             {
-            if (!action.empty())
-            {
-                callback(action);
-            } });
-    }
-
-    void Engine::OnKeybindHold(std::function<void(const std::string &)> callback)
-    {
-        input->OnHoldAction([callback](const std::string &action)
-                            {
-            if (!action.empty())
-            {
-                callback(action);
-            } });
-    }
-
-    void Engine::OnKeybindRelease(std::function<void(const std::string &)> callback)
-    {
-        input->OnReleaseAction([callback](const std::string &action)
-                               {
-            if (!action.empty())
-            {
-                callback(action);
-            } });
-    }
-
     void Engine::Run()
     {
         auto car = new engine::Entity("Car", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f), "./assets/models/vehicle-speedster.obj");
         auto entityManager = &engine::EntityManager::Instance();
         while (!glfwWindowShouldClose(window))
         {
-            input->Update(); // Update input state for held inputs
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             auto deltaTime = UpdateDeltaTime(); // Get delta time for frame rate independent updates
             for (auto &entity : entityManager->GetEntities())

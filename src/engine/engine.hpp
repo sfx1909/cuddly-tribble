@@ -24,8 +24,5 @@ namespace engine
         void Run();
         float UpdateDeltaTime();
         std::string GetConfigValue(const std::string section, const std::string key);
-        void OnKeybindPress(std::function<void(const std::string &)> callback);
-        void OnKeybindHold(std::function<void(const std::string &)> callback);
-        void OnKeybindRelease(std::function<void(const std::string &)> callback);
     };
 }
