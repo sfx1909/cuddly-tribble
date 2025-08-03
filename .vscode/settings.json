@@ -55,11 +55,19 @@
         "sstream": "cpp",
         "codecvt": "cpp",
         "ratio": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "unordered_set": "cpp",
+        "__hash_table": "cpp",
+        "__node_handle": "cpp",
+        "__verbose_abort": "cpp",
+        "cstring": "cpp",
+        "execution": "cpp"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         "*.cpp": "${capture}.h,${capture}.hpp",
         
     },
+    "C_Cpp.default.compilerPath": "/run/current-system/sw/bin/g++",
+    "nixEnvSelector.nixFile": "${workspaceFolder}/shell.nix",
 }
