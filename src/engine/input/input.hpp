@@ -17,6 +17,10 @@ namespace engine
             keyboard = std::make_unique<input::Keyboard<ActionType>>(window);
         }
 
+        void Update() {
+            keyboard->checkHeldKeys();
+        }
+
         void Bind(const std::string &keybind, const ActionType &action)
         {
             keyboard->bindKey(keybind, action);

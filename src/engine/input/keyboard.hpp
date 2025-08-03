@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <string>
+#include <unordered_set>
 #include <functional>
 #include "keybinds.hpp"
 
@@ -17,6 +18,7 @@ namespace input
         void onKeybindPress(KeybindCallback cb);
         void onKeybindRelease(KeybindCallback cb);
         void onKeybindHold(KeybindCallback cb);
+        void checkHeldKeys();
         static void keyCallbackDispatch(GLFWwindow *window, int key, int scancode, int action, int mods);
 
     private:
@@ -26,6 +28,7 @@ namespace input
         KeybindCallback onReleaseCallback = nullptr;
         KeybindCallback onHoldCallback = nullptr;
         static Keyboard<ActionType> *instance;
+        std::unordered_set<KeyInfo> heldKeys;
     };
     template <typename ActionType>
     Keyboard<ActionType> *Keyboard<ActionType>::instance = nullptr;
@@ -79,15 +82,28 @@ namespace input
 
         if (action == GLFW_PRESS && instance->onPressCallback)
         {
+            instance->heldKeys.insert(keyInfo);
             instance->onPressCallback(act);
         }
         if (action == GLFW_RELEASE && instance->onReleaseCallback)
         {
+            instance->heldKeys.erase(keyInfo);
             instance->onReleaseCallback(act);
         }
-        if (action == GLFW_REPEAT && instance->onHoldCallback)
+    }
+    template <typename ActionType>
+    void Keyboard<ActionType>::checkHeldKeys()
+    {
+        if (!instance)
+            return;
+
+        for (const auto &keyInfo : instance->heldKeys)
         {
-            instance->onHoldCallback(act); 
+            ActionType act = instance->keybinds.GetAction(keyInfo);
+            if (act != ActionType{} && instance->onHoldCallback)
+            {
+                instance->onHoldCallback(act);
+            }
         }
     }
 }

@@ -67,7 +67,12 @@
         "__hash_table": "cpp",
         "__node_handle": "cpp",
         "__verbose_abort": "cpp",
-        "execution": "cpp"
+        "execution": "cpp",
+        "__config": "cpp",
+        "filesystem": "cpp",
+        "ios": "cpp",
+        "locale": "cpp",
+        "bitset": "cpp"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
