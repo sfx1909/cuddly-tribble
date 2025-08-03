@@ -62,6 +62,11 @@ namespace engine
 
             return true;
         }
+        
+        bool IsActionActive(const ActionType &action) const
+        {
+            return keyboard->isActionActive(action);
+        }
 
     private:
         std::unique_ptr<input::Keyboard<ActionType>> keyboard;

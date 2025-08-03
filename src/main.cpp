@@ -5,7 +5,8 @@
 int main()
 {
     //TODO: Needs to be fixed but not crucial
-    //fix name not loading in
+    // Nothing to fix rn
+
     engine::Engine engine = engine::Engine();
     engine.OnKeybindPress([](const std::string& action) {
         std::cout << "Keybind press triggered: " << action << std::endl;

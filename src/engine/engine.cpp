@@ -33,10 +33,14 @@ namespace engine
         // Retrieve window width, height, and title from the config file
         int width = std::stoi(this->config->get()["window"]["width"]);
         int height = std::stoi(this->config->get()["window"]["height"]);
-        const char *title = this->config->get()["window"]["title"].c_str();
+        
+        auto title = GetConfigValue("window", "title");
+        if (!title.empty() && title.front() == '"' && title.back() == '"') {
+            title = title.substr(1, title.size() - 2);
+        }
 
         // Create the GLFW window with specified dimensions and title
-        window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+        window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
         if (!window)
         {
             // If window creation fails, clean up GLFW and throw an error
