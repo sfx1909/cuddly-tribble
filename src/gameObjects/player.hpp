@@ -8,7 +8,7 @@ namespace gameObjects
     class Player : public engine::Entity, public engine::WithInputMixin
     {
     private:
-        const std::string playerModelPath = "./assets/models/vehicle-speedster.obj";
+        static constexpr const char *playerModelPath = "./assets/models/vehicle-speedster.obj";
         void Movement(float deltaTime); // Function to handle player movement
     public:
         ~Player();

@@ -4,7 +4,7 @@ namespace gameObjects
 {
 
     Player::Player(std::string name, glm::vec3 pos, glm::vec3 rotation, glm::vec3 scale)
-        : Entity(name, pos, rotation, scale, this->playerModelPath)
+        : Entity(name, pos, rotation, scale, playerModelPath)
     {
     }
 
@@ -30,17 +30,25 @@ namespace gameObjects
     void Player::Movement(float deltaTime)
     {
         // Example movement logic
+        glm::vec3 newPos = GetPosition();
         if (isActionActive("move_forward"))
         {
-            glm::vec3 newPos = GetPosition();
             newPos.z += deltaTime; // Move forward in the z direction
-            SetPosition(newPos);
         }
         if (isActionActive("move_backward"))
         {
-            glm::vec3 newPos = GetPosition();
             newPos.z -= deltaTime; // Move backward in the z direction
-            SetPosition(newPos);
         }
+
+        if (isActionActive("move_left"))
+        {
+            newPos.x += deltaTime; // Move left in the x direction
+        }
+        if (isActionActive("move_right"))
+        {
+            newPos.x -= deltaTime; // Move right in the x direction
+        }
+        SetPosition(newPos);
     }
-} // namespace gameObjects
+
+}
