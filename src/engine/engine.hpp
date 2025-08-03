@@ -1,12 +1,13 @@
-#include <GLFW/glfw3.h>
 #include <utils/config/config.hpp>
 #include <string>
+#include <engine/renderer/renderer.hpp>
 
 namespace engine{
 class Engine {
     private:
         GLFWwindow* window;
         Config* config;
+        Renderer* renderer;
     public:
         Engine();
         ~Engine();

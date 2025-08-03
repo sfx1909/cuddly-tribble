@@ -55,7 +55,14 @@
         "sstream": "cpp",
         "codecvt": "cpp",
         "ratio": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "chrono": "cpp",
+        "cstring": "cpp",
+        "ranges": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp",
+        "semaphore": "cpp"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
