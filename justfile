@@ -2,10 +2,19 @@
 
 build:
     mkdir -p build
-    cd build; cmake ..
-    cd build; make
+    cmake -S . -B build
+    cmake --build build
 
 run: build
-    cd build; ./cuddly_tribble
+    ./build/cuddly_tribble
 
 dev: run
+
+clean:
+    rm -rf build
+
+clean_build: clean
+    build
+
+nix:
+    nix-shell "./shell.nix"

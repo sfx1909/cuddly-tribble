@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "preLaunchTask": "CMake: build",
+            "preLaunchTask": "Just: build",
             "program": "${workspaceFolder}/build/cuddly_tribble",
             "args": [],
             "stopAtEntry": false,
