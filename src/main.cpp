@@ -8,15 +8,6 @@ int main()
     // Nothing to fix rn
 
     engine::Engine engine = engine::Engine();
-    engine.OnKeybindPress([](const std::string& action) {
-        std::cout << "Keybind press triggered: " << action << std::endl;
-    });
-    engine.OnKeybindHold([](const std::string& action) {
-        std::cout << "Keybind hold triggered: " << action << std::endl;
-    });
-    engine.OnKeybindRelease([](const std::string& action) {
-        std::cout << "Keybind release triggered: " << action << std::endl;
-    });
     engine.Run();
     return 0;
 }

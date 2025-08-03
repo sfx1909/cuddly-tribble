@@ -4,6 +4,7 @@
 #include <memory>
 #include "keybinds.hpp"
 #include "keyboard.hpp"
+#include "utils/parser/mini/ini.h"
 #include <string>
 
 namespace engine
@@ -17,7 +18,8 @@ namespace engine
             keyboard = std::make_unique<input::Keyboard<ActionType>>(window);
         }
 
-        void Update() {
+        void Update()
+        {
             keyboard->checkHeldKeys();
         }
 
@@ -43,7 +45,7 @@ namespace engine
         {
             mINI::INIStructure keybinds;
             mINI::INIFile file(filePath);
-            
+
             bool success = file.read(keybinds);
 
             if (!success)
@@ -63,6 +65,11 @@ namespace engine
             return true;
         }
         
+        bool IsActionActive(const ActionType &action) const
+        {
+            return keyboard->isActionActive(action);
+        }
+
         bool IsActionActive(const ActionType &action) const
         {
             return keyboard->isActionActive(action);

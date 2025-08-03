@@ -33,9 +33,10 @@ namespace engine
         // Retrieve window width, height, and title from the config file
         int width = std::stoi(this->config->get()["window"]["width"]);
         int height = std::stoi(this->config->get()["window"]["height"]);
-        
+
         auto title = GetConfigValue("window", "title");
-        if (!title.empty() && title.front() == '"' && title.back() == '"') {
+        if (!title.empty() && title.front() == '"' && title.back() == '"')
+        {
             title = title.substr(1, title.size() - 2);
         }
 
@@ -49,6 +50,7 @@ namespace engine
         }
 
         input = new Input<std::string>(window);
+        EntityManager::Instance().SetUpInputHandler(input);
 
         // This can be called again to reload keybinds if needed
         std::string keybindsFile = "./preferences/keybinds.ini";
@@ -95,75 +97,32 @@ namespace engine
         this->renderer = new Renderer();
     }
 
+    void Engine::Run()
+    {
+        auto car = new gameObjects::Player("Car", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
+        auto entityManager = &engine::EntityManager::Instance();
+        entityManager->AddEntity(car); // Add the player entity to the entity manager
+
+        while (!glfwWindowShouldClose(window))
+        {
+            // input->Update(); //Needed for input.OnHoldAction to work
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            auto deltaTime = UpdateDeltaTime(); // Get delta time for frame rate independent updates
+            for (auto &entity : entityManager->GetEntities())
+            {
+                entity->Update(deltaTime);      // Update each entity with delta time
+                this->renderer->Render(entity); // Render each entity
+            }
+
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
+    }
+
     Engine::~Engine()
     {
         glfwDestroyWindow(window);
         glfwTerminate();
-    };
-
-    void Engine::OnKeybindPress(std::function<void(const std::string &)> callback)
-    {
-        input->OnPressAction([callback](const std::string &action)
-                             {
-            if (!action.empty())
-            {
-                callback(action);
-            } });
-    }
-
-    void Engine::OnKeybindHold(std::function<void(const std::string &)> callback)
-    {
-        input->OnHoldAction([callback](const std::string &action)
-                            {
-            if (!action.empty())
-            {
-                callback(action);
-            } });
-    }
-
-    void Engine::OnKeybindRelease(std::function<void(const std::string &)> callback)
-    {
-        input->OnReleaseAction([callback](const std::string &action)
-                               {
-            if (!action.empty())
-            {
-                callback(action);
-            } });
-    }
-
-    void Engine::Run()
-    {
-        float ballX = 400, ballY = 300, ballVX = 3, ballVY = 2, ballRadius = 40;
-        int width = 800, height = 600;
-
-        while (!glfwWindowShouldClose(window))
-        {
-            input->Update(); // Update input state for held inputs
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            this->renderer->Render("vehicle-speedster"); // Render the scene
-
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-            // glClear(GL_COLOR_BUFFER_BIT);
-            // // Animate ball
-            // ballX += ballVX;
-            // ballY += ballVY;
-            // if (ballX < ballRadius || ballX > width - ballRadius) ballVX = -ballVX;
-            // if (ballY < ballRadius || ballY > height - ballRadius) ballVY = -ballVY;
-            // // Draw ball
-            // glColor3f(1, 1, 1);
-            // glBegin(GL_TRIANGLE_FAN);
-            // glVertex2f(ballX / (width / 2) - 1, ballY / (height / 2) - 1);
-            // for (int i = 0; i <= 100; ++i) {
-            //     float angle = i * 2.0f * M_PI / 100;
-            //     float x = ballX + cos(angle) * ballRadius;
-            //     float y = ballY + sin(angle) * ballRadius;
-            //     glVertex2f(x / (width / 2) - 1, y / (height / 2) - 1);
-            // }
-            // glEnd();
-            // glfwSwapBuffers(window);
-            // glfwPollEvents();
-        }
     };
 
     std::string Engine::GetConfigValue(const std::string section, const std::string key)
@@ -176,5 +135,15 @@ namespace engine
         {
             throw std::runtime_error("Failed to get config value for section: " + section + ", key: " + key);
         }
+    };
+
+    float Engine::UpdateDeltaTime()
+    {
+        // Calculate delta time for frame rate independent updates
+        static auto lastTime = std::chrono::high_resolution_clock::now();
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        return deltaTime.count(); // Return the delta time for this frame
     };
 }

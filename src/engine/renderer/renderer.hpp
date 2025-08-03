@@ -1,3 +1,5 @@
+
+#pragma once
 // Standard C++ Libraries
 #include <iostream>
 #include <vector>
@@ -14,36 +16,31 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <engine/structures/structs.hpp>
 
-namespace engine{
-struct Vertex {
-    glm::vec3 position;
-    glm::vec3 normal;
-    glm::vec2 texCoords;
-};
+namespace engine
+{
 
-struct MeshData {
-    GLuint vao;
-    size_t vertexCount;
-};
+    class Entity;
 
-
-class Renderer {
-    public: 
+    class Renderer
+    {
+    public:
+        static Renderer &Instance()
+        {
+            static Renderer instance;
+            return instance;
+        }
         Renderer();
         ~Renderer();
-        std::vector<Vertex> LoadModel(const std::string& path);
-        MeshData setupBuffers(const std::vector<Vertex>& vertices);
-        void Render(const std::string& modelKey);
-        Renderer(const Renderer&) = delete;
+        std::vector<Vertex> LoadModel(const std::string &path);
+        engine::MeshData setupBuffers(const std::vector<Vertex> &vertices);
+        void Render(engine::Entity *entity);
+        Renderer(const Renderer &) = delete;
+
     private:
-        std::unordered_map<std::string, MeshData> meshVAOs;
         GLuint shaderProgram;
-        GLuint CompileShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+        GLuint CompileShader(const std::string &vertexSrc, const std::string &fragmentSrc);
         void Initialize();
-
-        
-
-};
+    };
 }
-

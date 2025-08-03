@@ -81,15 +81,17 @@ namespace input
         if (act == ActionType{})
             return;
 
-        if (action == GLFW_PRESS && instance->onPressCallback)
+        if (action == GLFW_PRESS)
         {
             instance->heldKeys.insert(keyInfo);
-            instance->onPressCallback(act);
+            if (instance->onPressCallback)
+                instance->onPressCallback(act);
         }
-        if (action == GLFW_RELEASE && instance->onReleaseCallback)
+        if (action == GLFW_RELEASE)
         {
             instance->heldKeys.erase(keyInfo);
-            instance->onReleaseCallback(act);
+            if (instance->onReleaseCallback)
+                instance->onReleaseCallback(act);
         }
     }
     template <typename ActionType>

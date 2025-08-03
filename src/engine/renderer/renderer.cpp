@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <glm/ext/matrix_transform.hpp>  // For glm::lookAt, glm::translate, etc.
 #include <glm/ext/matrix_clip_space.hpp> // For glm::perspective
+#include "engine/entity/entity.hpp"
 
 namespace engine
 {
@@ -44,15 +45,6 @@ namespace engine
 
             // 🔹 Compile and link the shaders into a program
             shaderProgram = CompileShader(vertexShaderSrc, fragmentShaderSrc);
-
-            // 🔹 Load model vertices using Assimp
-            auto carVerts = LoadModel("./assets/models/vehicle-speedster.obj");
-
-            // 🔹 Upload model data to GPU
-            auto carMeshData = setupBuffers(carVerts);
-
-            // 🔹 Store the mesh with a key for later use in Render()
-            meshVAOs["vehicle-speedster"] = carMeshData;
         }
         catch (const std::exception &ex)
         {
@@ -156,7 +148,7 @@ namespace engine
     };
 
     // Creates a VAO and VBO, and uploads the vertex data to GPU memory
-    MeshData Renderer::setupBuffers(const std::vector<Vertex> &vertices)
+    engine::MeshData Renderer::setupBuffers(const std::vector<Vertex> &vertices)
     {
         GLuint VAO, VBO;
         glGenVertexArrays(1, &VAO);
@@ -185,14 +177,9 @@ namespace engine
     };
 
     // Renders the model identified by modelKey using the shader and transform matrices
-    void Renderer::Render(const std::string &modelKey)
+    void Renderer::Render(engine::Entity *entity)
     {
-        auto it = meshVAOs.find(modelKey);
-        if (it == meshVAOs.end())
-        {
-            std::cerr << "Render error: VAO for model '" << modelKey << "' not found." << std::endl;
-            return;
-        }
+        auto it = entity->GetMeshData();
 
         // Use the shader program
         glUseProgram(shaderProgram);
@@ -200,8 +187,8 @@ namespace engine
         // Create transformation matrices
         glm::mat4 model = glm::mat4(1.0f); // Identity model matrix (no transform)
         glm::mat4 view = glm::lookAt(
-            glm::vec3(0.0f, 0.0f, 5.0f), // Camera position
-            glm::vec3(0.0f, 0.0f, 0.0f), // Target
+            glm::vec3(5.0f, 5.0f, 5.0f), // Camera position
+            entity->GetPosition(),       // Target
             glm::vec3(0.0f, 1.0f, 0.0f)  // Up direction
         );
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -216,9 +203,8 @@ namespace engine
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, &projection[0][0]);
 
         // Bind VAO and draw the model
-        const MeshData &mesh = it->second;
-        glBindVertexArray(mesh.vao);
-        glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(mesh.vertexCount));
+        glBindVertexArray(it->vao);
+        glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(it->vertexCount));
         glBindVertexArray(0); // Unbind VAO
     }
 
