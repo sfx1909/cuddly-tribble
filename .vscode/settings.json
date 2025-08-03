@@ -72,7 +72,8 @@
         "filesystem": "cpp",
         "ios": "cpp",
         "locale": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "list": "cpp"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {

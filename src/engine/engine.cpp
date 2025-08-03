@@ -91,12 +91,6 @@ namespace engine
         this->renderer = new Renderer();
     }
 
-    Engine::~Engine()
-    {
-        glfwDestroyWindow(window);
-        glfwTerminate();
-    };
-
     void Engine::OnKeybindPress(std::function<void(const std::string &)> callback)
     {
         input->OnPressAction([callback](const std::string &action)
@@ -129,37 +123,28 @@ namespace engine
 
     void Engine::Run()
     {
-        float ballX = 400, ballY = 300, ballVX = 3, ballVY = 2, ballRadius = 40;
-        int width = 800, height = 600;
-
+        auto car = new engine::Entity("Car", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f), "./assets/models/vehicle-speedster.obj");
+        auto entityManager = &engine::EntityManager::Instance();
         while (!glfwWindowShouldClose(window))
         {
             input->Update(); // Update input state for held inputs
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            this->renderer->Render("vehicle-speedster"); // Render the scene
+            auto deltaTime = UpdateDeltaTime(); // Get delta time for frame rate independent updates
+            for (auto &entity : entityManager->GetEntities())
+            {
+                entity->Update(deltaTime);      // Update each entity with delta time
+                this->renderer->Render(entity); // Render each entity
+            }
 
             glfwSwapBuffers(window);
             glfwPollEvents();
-            // glClear(GL_COLOR_BUFFER_BIT);
-            // // Animate ball
-            // ballX += ballVX;
-            // ballY += ballVY;
-            // if (ballX < ballRadius || ballX > width - ballRadius) ballVX = -ballVX;
-            // if (ballY < ballRadius || ballY > height - ballRadius) ballVY = -ballVY;
-            // // Draw ball
-            // glColor3f(1, 1, 1);
-            // glBegin(GL_TRIANGLE_FAN);
-            // glVertex2f(ballX / (width / 2) - 1, ballY / (height / 2) - 1);
-            // for (int i = 0; i <= 100; ++i) {
-            //     float angle = i * 2.0f * M_PI / 100;
-            //     float x = ballX + cos(angle) * ballRadius;
-            //     float y = ballY + sin(angle) * ballRadius;
-            //     glVertex2f(x / (width / 2) - 1, y / (height / 2) - 1);
-            // }
-            // glEnd();
-            // glfwSwapBuffers(window);
-            // glfwPollEvents();
         }
+    }
+
+    Engine::~Engine()
+    {
+        glfwDestroyWindow(window);
+        glfwTerminate();
     };
 
     std::string Engine::GetConfigValue(const std::string section, const std::string key)
@@ -172,5 +157,15 @@ namespace engine
         {
             throw std::runtime_error("Failed to get config value for section: " + section + ", key: " + key);
         }
+    };
+
+    float Engine::UpdateDeltaTime()
+    {
+        // Calculate delta time for frame rate independent updates
+        static auto lastTime = std::chrono::high_resolution_clock::now();
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        return deltaTime.count(); // Return the delta time for this frame
     };
 }
